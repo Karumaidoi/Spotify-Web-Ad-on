@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify || Test fly spotify toolkit</title>
+</head>
+<body>
+    <button id="togglePlay">Toggle Play</button>
+   
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    
+    <script>
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token = 'BQCvy_7TYOO5rI_VvieL76uXB-iwGkKUqrGnJsZbjJjQy_0xwOMR2Ozz_ehQR95KPbSo_6_2XoDlEuEi6-qwj6A9K7x6bdQyqHRCSVNs4hxCtE9oM-GptXDX4kmJ0Sv1mn9K0qCj83fydO4ouTAOCYGgANJMHQLCWnUBMQPqNA8MB6vGpgLWuDJJDHCEIAHz4y1tVNeDvcc3TI1Czsujp_Pe';
+            const player = new Spotify.Player({
+                name: 'Alex Spotify Web Player 👩🏼‍💻',
+                getOAuthToken: cb => { cb(token); },
+                volume: 1
+            });
+
+            console.log(player);
+
+            // Ready
+            player.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+
+            // Not Ready
+            player.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            player.addListener('initialization_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('authentication_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('account_error', ({ message }) => {
+                console.error(message);
+            });
+
+            document.getElementById('togglePlay').onclick = function() {
+              player.togglePlay();
+            };
+
+            player.connect();
+        }
+    </script>
+</body>
+</html>
